@@ -1,0 +1,55 @@
+package controller;
+
+import java.io.IOException;
+
+import javax.servlet.RequestDispatcher;
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import bean.detailproductbean;
+import bean.productbean;
+import bo.productbo;
+
+/**
+ * Servlet implementation class detailProduct
+ */
+@WebServlet("/products/detail")
+public class detailProduct extends HttpServlet {
+	private static final long serialVersionUID = 1L;
+       
+    /**
+     * @see HttpServlet#HttpServlet()
+     */
+    public detailProduct() {
+        super();
+        // TODO Auto-generated constructor stub
+    }
+
+	/**
+	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
+	 */
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		request.setCharacterEncoding("utf-8");
+		response.setCharacterEncoding("utf-8");
+		String productId = request.getParameter("productId");
+		if(productId == null) response.sendRedirect("/ShopShoes/home");
+		productbo pb = new productbo();
+		
+		detailproductbean p = pb.GetProductById(Integer.parseInt(productId));
+		request.setAttribute("product", p);
+		RequestDispatcher rd = request.getRequestDispatcher("/detailProduct.jsp");
+		rd.forward(request, response);
+	}
+
+	/**
+	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
+	 */
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		// TODO Auto-generated method stub
+		doGet(request, response);
+	}
+
+}
